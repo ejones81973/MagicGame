@@ -1,0 +1,4 @@
+{
+    "name": "Spellright.Runtime",
+    "references": ["Unity.InputSystem"]
+}

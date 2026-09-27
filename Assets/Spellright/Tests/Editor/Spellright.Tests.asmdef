@@ -1,0 +1,6 @@
+{
+  "name": "Spellright.Tests",
+  "references": ["Spellright.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"]
+}
