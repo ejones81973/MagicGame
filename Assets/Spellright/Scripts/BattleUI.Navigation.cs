@@ -131,6 +131,23 @@ namespace Spellright
             }
             button.fontSize = originalFontSize;
             GUI.enabled = true;
+            if (navigation.ChoosingTarget && !string.IsNullOrEmpty(navigation.TargetSpellDescription))
+            {
+                float descriptionY;
+                float descriptionHeight;
+                if (navigation.Screen == CombatScreen.AllyTarget)
+                { descriptionY = 650; descriptionHeight = 104; }
+                else if (navigation.TargetsAll)
+                { descriptionY = 630; descriptionHeight = 124; }
+                else if (navigation.TargetCandidates().Length > 3)
+                { descriptionY = 716; descriptionHeight = 44; }
+                else
+                { descriptionY = 644; descriptionHeight = 116; }
+                var descriptionRect = new Rect(24, descriptionY, 850, descriptionHeight);
+                GUI.Box(descriptionRect, "");
+                GUI.Label(new Rect(descriptionRect.x + 10, descriptionRect.y + 5, descriptionRect.width - 20,
+                    descriptionRect.height - 10), navigation.TargetSpellDescription, small);
+            }
             Rect helpRect = navigation.Screen == CombatScreen.Magic || navigation.Screen == CombatScreen.Sync
                 ? new Rect(24, 764, 850, 24) : navigation.ChoosingTarget
                     ? new Rect(24, 764, 850, 24) : new Rect(24, 710, 850, 74);

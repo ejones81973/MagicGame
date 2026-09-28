@@ -25,6 +25,9 @@ namespace Spellright
         public int Cursor { get; private set; }
         public bool ChoosingTarget => Screen == CombatScreen.AllyTarget || Screen == CombatScreen.EnemyTarget;
         public bool TargetsAll => Screen == CombatScreen.EnemyTarget && spell != null && spell.Target == SpellTarget.AllEnemies;
+        public string TargetSpellDescription => ChoosingTarget && (pending == Pending.Spell || pending == Pending.Sync) && spell != null
+            ? spell.Label(pending == Pending.Spell ? battle.Actions.SpellLevel(spell) : 1) + " — " + SpellEffectDescription(spell)
+            : "";
         CombatScreen returnScreen;
         int returnCursor;
         enum Pending { None, Melee, Spell, Item, Sync }
@@ -163,6 +166,60 @@ namespace Spellright
                 selected.Target == SpellTarget.Battlefield ? "field" : selected.Target == SpellTarget.Self ? "self" : "single foe";
             return selected.Effect + " / " + target + (selected.StatusChance > 0 ? " / " + Mathf.RoundToInt(selected.StatusChance * 100) + "% status" : "");
         }
+        string SpellEffectDescription(Spell selected)
+        {
+            switch (selected.Effect)
+            {
+                case SpellEffect.FireStrike: return "Deals " + selected.Power + " Fire damage and may inflict Burn.";
+                case SpellEffect.Ignite: return "Inflicts Burn; affected targets take damage before their turn.";
+                case SpellEffect.Wildfire: return "Deals Fire damage to all enemies and can spread Burn.";
+                case SpellEffect.Combust: return "Deals extra damage to a Burning target and consumes its Burn.";
+                case SpellEffect.FuelFlame: return "Sacrifices some HP to increase Fire damage for a few turns.";
+                case SpellEffect.Scorch: return "Deals Fire damage and lowers the target's Defense.";
+                case SpellEffect.Backdraft: return "Deals heavy Fire damage to an enemy that attacked Brim last round.";
+                case SpellEffect.FlameWall: return "Surrounds the party with a wall that retaliates against attackers.";
+                case SpellEffect.HeatUp: return "Builds Fire power for consecutive Fire attacks.";
+                case SpellEffect.LastSpark: return "Deals more Fire damage as the caster's HP gets lower.";
+                case SpellEffect.Inferno: return "Deals heavy Fire damage to all enemies and may Burn them.";
+                case SpellEffect.PhoenixFlame: return "Prepares Brim to revive once if knocked out.";
+                case SpellEffect.WaterStrike: return "Deals Water damage and may leave the target Wet.";
+                case SpellEffect.Mend: return "Restores " + selected.Power + " HP to one ally.";
+                case SpellEffect.HealingRain: return "Restores HP to the whole party.";
+                case SpellEffect.Cleanse: return "Removes Burn, Shock, and attack or defense penalties from one ally.";
+                case SpellEffect.Bubble: return "Gives one ally a small damage-absorbing Bubble.";
+                case SpellEffect.TidalGuard: return "Reduces damage taken by the party for a few turns.";
+                case SpellEffect.Undertow: return "Deals Water damage and weakens the target's attacks.";
+                case SpellEffect.Current: return "Swaps positions with an ally, changing the party order.";
+                case SpellEffect.Rejuvenate: return "Restores HP to one ally at the start of its turns.";
+                case SpellEffect.Overflow: return "Heals one ally; excess healing becomes a damage-absorbing Bubble.";
+                case SpellEffect.HighTide: return "Strengthens Brooke's Water spells for a few turns.";
+                case SpellEffect.SecondBreath: return "Revives one knocked-out ally with HP.";
+                case SpellEffect.Tsunami: return "Deals Water damage to all enemies and may make them Wet.";
+                case SpellEffect.Arc: return "Deals Electric damage to all enemies and may Shock them.";
+                case SpellEffect.Taser: return "Deals Electric damage and inflicts Shock.";
+                case SpellEffect.ChainLightning: return "Strikes an enemy, then chains weaker hits to others.";
+                case SpellEffect.Overcharge: return "Boosts an ally's next spell, but adds to its MP cost.";
+                case SpellEffect.QuickCharge: return "Makes Blitz's next Electric spell cheaper and stronger.";
+                case SpellEffect.StaticField: return "Surrounds the party with a field that shocks attackers.";
+                case SpellEffect.LightningRod: return "Draws enemy attacks toward Blitz.";
+                case SpellEffect.Surge: return "Lets an ally act first in the next Party Phase.";
+                case SpellEffect.ShortCircuit: return "Deals Electric damage and weakens the target's attacks.";
+                case SpellEffect.LiveWire: return "Wires an enemy so its next hit triggers extra Electric damage.";
+                case SpellEffect.Conductor: return "Marks an enemy to take increased Electric damage.";
+                case SpellEffect.Thunderclap: return "Damages and Shocks all enemies.";
+                case SpellEffect.LightningStrike: return "Deals heavy Electric damage to one enemy.";
+                case SpellEffect.SteamCloud: return "Weakens all enemies' attacks.";
+                case SpellEffect.PressureBurst: return "Deals heavy synchronized Water damage to one enemy.";
+                case SpellEffect.Scald: return "Deals Water damage and inflicts Burn.";
+                case SpellEffect.ConductiveWave: return "Damages and Shocks all enemies; Wet targets take extra Electric damage.";
+                case SpellEffect.StormCloud: return "Calls down repeated Electric damage on all enemies.";
+                case SpellEffect.Defibrillate: return "Revives one knocked-out ally with HP.";
+                case SpellEffect.PlasmaBolt: return "Deals heavy synchronized Electric damage to one enemy.";
+                case SpellEffect.Overheat: return "Deals Fire damage and weakens the target's attacks.";
+                case SpellEffect.Flashfire: return "Deals Fire damage to all enemies.";
+                default: return "Deals " + selected.Power + " damage.";
+            }
+        }
         public void Move(int horizontal, int vertical)
         {
             var choices = Choices();
@@ -188,7 +245,7 @@ namespace Spellright
             {
                 var candidates = TargetCandidates();
                 if (TargetsAll)
-                    Add(new Rect(34, 590, 824, 56), "All living enemies (" + candidates.Length + ") - confirm attack", candidates.Length > 0, () => Commit(candidates[0]));
+                    Add(new Rect(34, 568, 824, 52), "All living enemies (" + candidates.Length + ") - confirm attack", candidates.Length > 0, () => Commit(candidates[0]));
                 else if (Screen == CombatScreen.EnemyTarget)
                 {
                     int columns = Mathf.Min(3, Mathf.Max(1, candidates.Length));
@@ -199,7 +256,7 @@ namespace Spellright
                         int column = i % columns, row = i / columns;
                         string effects = string.IsNullOrEmpty(target.StatusText) ? "No active effects" : "Effects: " + target.StatusText;
                         string text = target.Name + "\nHP " + target.HP + "/" + target.MaxHP + "\n" + effects;
-                        Add(new Rect(34 + column * cellWidth, 572 + row * 96, cellWidth - 12, 88), text, true, () => Commit(target));
+                        Add(new Rect(34 + column * cellWidth, 568 + row * 76, cellWidth - 12, 70), text, true, () => Commit(target));
                     }
                 }
                 else for (int i = 0; i < candidates.Length; i++)
