@@ -87,6 +87,12 @@
 - Added a GitHub Actions workflow to build both scenes and deploy the Pages artifact on pushes to `main` or manual dispatch.
 - Documented the Pages source and Unity license secret setup in the root README. GitHub deployment still requires those repository settings/secrets and a successful workflow run.
 
+## 2026-10-05 — Pages build licensing and cache
+
+- Passed the optional `UNITY_SERIAL` secret into GameCI so Professional Unity licenses can authenticate as well as Personal license files.
+- Added a keyed Unity `Library` cache to speed up subsequent WebGL workflow runs.
+- Documented the exact repository secrets required for Personal and Pro/Plus licenses. These credentials must be added by a repository administrator; they are not stored in the project.
+
 ## 2026-10-05 — Stable Line leader switching
 
 - Line leader changes keep the party formation anchor fixed. Characters reorder around that point, preventing repeated Q/E swaps from shifting the whole line backward.
