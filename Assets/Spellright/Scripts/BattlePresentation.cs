@@ -15,11 +15,13 @@ namespace Spellright
         readonly Dictionary<Combatant, Coroutine> flashes = new Dictionary<Combatant, Coroutine>();
         AudioSource audioSource;
         FloatingDamageNumbers damageNumbers;
+        Material primitiveMaterialTemplate;
         Vector3 cameraHomePosition, cameraHomeFocus = new Vector3(0, 2, 0);
         Quaternion cameraHomeRotation;
         float cameraHomeSize;
-        public void Build()
+        public void Build(Material materialTemplate)
         {
+            primitiveMaterialTemplate = materialTemplate;
             Camera = new GameObject("Battle Camera").AddComponent<Camera>();
             Camera.transform.SetParent(transform);
             Camera.transform.position = new Vector3(1, 9, -18);
@@ -50,10 +52,21 @@ namespace Spellright
         {
             var obj = GameObject.CreatePrimitive(primitive); obj.name = name; obj.transform.SetParent(transform);
             obj.transform.position = position; obj.transform.localScale = scale;
-            var shader = Shader.Find("Universal Render Pipeline/Lit");
-            if (!shader) shader = Shader.Find("Standard");
-            var material = new Material(shader); material.color = color; materials.Add(material);
-            obj.GetComponent<Renderer>().sharedMaterial = material;
+            var renderer = obj.GetComponent<Renderer>();
+            Material material = primitiveMaterialTemplate ? new Material(primitiveMaterialTemplate) : null;
+            if (!material)
+            {
+                var shader = Shader.Find("Universal Render Pipeline/Lit");
+                if (!shader) shader = Shader.Find("Standard");
+                if (shader) material = new Material(shader);
+            }
+            if (material)
+            {
+                material.color = color;
+                materials.Add(material);
+                renderer.sharedMaterial = material;
+            }
+            else Debug.LogError("Battle visuals could not find a usable primitive material. Assign one in CombatSettings.");
             Destroy(obj.GetComponent<Collider>());
             return obj.transform;
         }

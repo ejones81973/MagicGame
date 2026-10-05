@@ -1,5 +1,10 @@
 # Change Log
 
+## 2026-10-05 — WebGL battle visuals
+
+- Battle geometry now clones a serialized URP Lit material referenced by `CombatSettings`, ensuring the WebGL build includes the shader instead of relying only on runtime `Shader.Find`.
+- Added a safe fallback so missing shader references log a clear error instead of aborting battle initialization before fighters and the HUD are created.
+
 ## 2026-10-04 — Overworld formation test course
 
 - Replaced the single-purpose movement demo builder with a graybox course for Line, Spread, Totem, Huddle, and a mixed-formation finale.

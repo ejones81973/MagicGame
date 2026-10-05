@@ -5,6 +5,9 @@ namespace Spellright
     [CreateAssetMenu(menuName = "Spellright/Combat Settings")]
     public class CombatSettings : ScriptableObject
     {
+        [Header("Runtime visuals")]
+        public Material runtimePrimitiveMaterial;
+
         public void EnsureSpellDefaults()
         {
             if (spells == null || spells.Length == 0) spells = SpellLibrary.CreateDefaults();

@@ -34,7 +34,7 @@ namespace Spellright
             Party.Add(new Combatant("Brim", Element.Fire, settings.brim, new Color(1, 0.3f, 0.12f)));
             Party.Add(new Combatant("Brooke", Element.Water, settings.brooke, new Color(0.15f, 0.65f, 1)));
             Party.Add(new Combatant("Blitz", Element.Electric, settings.blitz, new Color(1, 0.85f, 0.12f)));
-            Presentation = gameObject.AddComponent<BattlePresentation>(); Presentation.Build();
+            Presentation = gameObject.AddComponent<BattlePresentation>(); Presentation.Build(settings.runtimePrimitiveMaterial);
             for (int i = 0; i < Party.Count; i++) Presentation.CreateFighter(Party[i], Vector3.zero, settings, i * 0.23f);
             Formation = new FormationSystem(settings, Party); Formation.Apply();
             Counter = gameObject.AddComponent<CounterSystem>();

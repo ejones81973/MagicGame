@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a65885ec9b475780c092caa1dc6002, type: 3}
   m_Name: CombatSettings
   m_EditorClassIdentifier:
+  runtimePrimitiveMaterial: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   idleBounceHeight: 0.18
   idleBounceFrequency: 1.6
   enemyRecoilDistance: 0.4
