@@ -498,24 +498,8 @@ namespace Spellright
         }
         float AdjustSpellDamage(Combatant caster, Combatant target, Spell spell, float power, bool sharePartyStatuses)
         {
-            float matchup = BattleActions.ElementMatchupMultiplier(spell.Element, target.Element);
-            power *= matchup;
-            if (matchup != 1f)
-            {
-                bool weak = matchup > 1f;
-                string text = weak ? "weak" : "resist";
-                Color color = weak ? new Color(1f, .35f, .25f) : new Color(.55f, .75f, 1f);
-                battle.Presentation.ShowStatus(target, text, color);
-                battle.Log(target.Name + " is " + text + " to " + spell.Element + ".");
-            }
             if (spell.Effect == SpellEffect.Combust && target.BurnTurns > 0)
             { power += target.BurnTurns * battle.Settings.burnDamagePerTurn; target.BurnTurns = 0; }
-            if (spell.Element == Element.Water && target.BurnTurns > 0)
-            {
-                target.BurnTurns = 0;
-                battle.Presentation.ShowStatus(target, "extinguished", Color.cyan);
-                battle.Log(target.Name + "'s Burn is extinguished by Water.");
-            }
             if (spell.Element == Element.Fire)
             {
                 power *= 1 + caster.FireDamageBonus;

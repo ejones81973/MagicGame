@@ -32,7 +32,7 @@ namespace Spellright
         public Element Element = Element.Fire;
         [Tooltip("A signature spell for this enemy type. Each spawned enemy also receives a second random spell of the same element. One of its two is randomly selected as the absorption reward.")]
         public string AbsorbableSpellId = "fire_combust";
-        public int HP = 100;
+        public int HP = 170;
         public int Defense = 2;
         public Color Color = Color.magenta;
     }
