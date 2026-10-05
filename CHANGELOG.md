@@ -1,5 +1,9 @@
 # Change Log
 
+## 2026-10-05 — GitHub Pages root entry point
+
+- Added the branch-root landing page needed by the repository's active legacy GitHub Pages configuration. It links directly to the verified Battle and Overworld WebGL builds in `docs/`.
+
 ## 2026-10-05 — Complete WebGL material retention
 
 - Replaced remaining runtime shader-name lookups in battle shields, statuses, attack rings, overworld geometry, party members, and spells with a shared material factory.

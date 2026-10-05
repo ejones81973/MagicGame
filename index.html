@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spellright — Playtest</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #10111b; color: #f7f4ed; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 28px; background: radial-gradient(ellipse at 50% 0%, #282541, #10111b 60%); }
+    main { width: min(900px, 100%); }
+    h1 { margin: 0; font-size: clamp(3rem, 10vw, 6rem); letter-spacing: -.07em; }
+    p { color: #c8c6d4; line-height: 1.55; }
+    .choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 36px; }
+    a { min-height: 210px; padding: 25px; border: 1px solid #ffffff24; border-radius: 22px; color: inherit; text-decoration: none; background: #ffffff0b; }
+    a:hover, a:focus-visible { border-color: #ffffff80; background: #ffffff16; }
+    h2 { margin: 0 0 10px; font-size: 1.8rem; }
+    .battle h2 { color: #ff9a72; } .overworld h2 { color: #85def4; }
+    @media (max-width: 650px) { .choices { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Spellright</h1>
+    <p>Choose a prototype to play.</p>
+    <section class="choices" aria-label="Choose a game mode">
+      <a class="battle" href="./docs/battle/"><h2>Battle</h2><p>Command Brim, Brooke, and Blitz through elemental encounters.</p></a>
+      <a class="overworld" href="./docs/overworld/"><h2>Overworld</h2><p>Explore the formation, movement, and cooperative-magic test course.</p></a>
+    </section>
+  </main>
+</body>
+</html>
