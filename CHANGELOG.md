@@ -109,4 +109,5 @@
 
 - Removed Unity/GameCI from the GitHub Pages workflow. GitHub now only validates the prebuilt Battle and Overworld WebGL entry files, packages `docs`, and deploys the site; no Unity credentials are needed in repository secrets.
 - Added a Unity menu command to build both Pages games locally into `docs/battle` and `docs/overworld`.
+- Added Unity's stable folder metadata for the `Assets/Editor` build-tool folder.
 - Updated the root README with local build and publish steps. The WebGL build folders must be committed so the Pages workflow can publish them.
