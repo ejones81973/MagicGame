@@ -48,7 +48,13 @@ namespace Spellright
         }
         public int Hurt(int damage) { int actual = Mathf.Min(HP, Mathf.Max(0, damage)); HP -= actual; return actual; }
         public void Heal(int amount) { if (Alive) HP = Mathf.Min(MaxHP, HP + amount); }
-        public int Revive(int amount) { if (Alive) return 0; HP = Mathf.Clamp(amount, 1, MaxHP); return HP; }
+        public int Revive(int amount)
+        {
+            if (Alive) return 0;
+            HP = Mathf.Clamp(amount, 1, MaxHP);
+            Acted = false;
+            return HP;
+        }
         public void Cleanse()
         {
             BurnTurns = ShockTurns = DefenseDownTurns = AttackDownTurns = 0;

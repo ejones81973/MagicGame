@@ -13,9 +13,9 @@ namespace Spellright
         void OnValidate() { EnsureSpellDefaults(); }
         public static EnemyPrototype[] CreateDefaultEnemies() => new[]
         {
-            new EnemyPrototype { Name = "Cinder Adept", AbsorbableSpellId = "fire_combust", HP = 170, Defense = 3, Color = new Color(.92f, .28f, .12f), Element = Element.Fire },
-            new EnemyPrototype { Name = "Tide Adept", AbsorbableSpellId = "water_bubble", HP = 170, Defense = 2, Color = new Color(.12f, .5f, .95f), Element = Element.Water },
-            new EnemyPrototype { Name = "Arc Adept", AbsorbableSpellId = "electric_chain", HP = 170, Defense = 2, Color = new Color(.95f, .75f, .12f), Element = Element.Electric }
+            new EnemyPrototype { Name = "Cinder Adept", AbsorbableSpellId = "fire_combust", HP = 100, Defense = 3, Color = new Color(.92f, .28f, .12f), Element = Element.Fire },
+            new EnemyPrototype { Name = "Tide Adept", AbsorbableSpellId = "water_bubble", HP = 100, Defense = 2, Color = new Color(.12f, .5f, .95f), Element = Element.Water },
+            new EnemyPrototype { Name = "Arc Adept", AbsorbableSpellId = "electric_chain", HP = 100, Defense = 2, Color = new Color(.95f, .75f, .12f), Element = Element.Electric }
         };
         [Header("Capsule movement")]
         [Min(0)] public float idleBounceHeight = 0.18f;
@@ -27,7 +27,7 @@ namespace Spellright
         public Vector4 brooke = new Vector4(135, 48, 16, 8);
         public Vector4 blitz = new Vector4(110, 44, 19, 4);
         [Header("Enemies")]
-        public int enemyHP = 260;
+        public int enemyHP = 100;
         [Min(2)] public int waveMinimumEnemies = 2;
         [Range(2, 5)] public int waveMaximumEnemies = 5;
         [Min(1)] public int minibossEveryWaves = 10;

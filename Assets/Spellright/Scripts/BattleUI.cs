@@ -118,7 +118,11 @@ namespace Spellright
                 // The always active hero is not a pending target. Reserve the world arrow
                 // for an actual target choice; command/menu selection has its own cursor.
                 if (navigation.ChoosingTarget && navigation.IsMarked(c))
-                    DrawArrow(new Rect(x - 12, y - 46, 24, 24), true);
+                {
+                    Color arrowColor = navigation.Screen == CombatScreen.AllyTarget
+                        ? ElementArrowColor(battle.Active.Element) : Color.yellow;
+                    DrawArrow(new Rect(x - 12, y - 46, 24, 24), true, arrowColor);
+                }
                 if (navigation.Screen == CombatScreen.Formation)
                 {
                     if (navigation.FormationTopMarker == battle.Party.IndexOf(c))
@@ -133,6 +137,17 @@ namespace Spellright
                 }
             }
             return false;
+        }
+
+        static Color ElementArrowColor(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire: return new Color(1f, .12f, .08f);
+                case Element.Water: return new Color(.08f, .5f, 1f);
+                case Element.Electric: return new Color(1f, .85f, .05f);
+                default: return Color.yellow;
+            }
         }
     }
 }

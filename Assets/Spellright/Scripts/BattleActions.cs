@@ -146,6 +146,12 @@ namespace Spellright
             int power = spell.ScaledPower(level);
             if (spell.Target == SpellTarget.AllEnemies) power = Mathf.RoundToInt(power * battle.Settings.multiTargetScale);
             if (spell.Effect == SpellEffect.ChainLightning) power = Mathf.RoundToInt(power * Mathf.Pow(battle.Settings.chainTargetScale, index));
+            if (DamageElement(spell) == Element.Water && target.BurnTurns > 0)
+            {
+                target.BurnTurns = 0;
+                battle.Presentation.ShowStatus(target, "extinguished", Color.cyan);
+                battle.Log(target.Name + "'s Burn is extinguished by Water.");
+            }
             switch (spell.Effect)
             {
                 case SpellEffect.FireStrike: case SpellEffect.WaterStrike: case SpellEffect.Ignite: case SpellEffect.Wildfire:
@@ -204,6 +210,8 @@ namespace Spellright
         int HitSpell(Combatant actor, Combatant target, Element element, int raw, bool synchronized = false)
         {
             float amount = raw;
+            float matchup = ElementMatchupMultiplier(element, target.Element);
+            amount *= matchup;
             if (element == Element.Fire)
             {
                 amount *= 1 + actor.FireDamageBonus + actor.HeatStacks * .05f;
@@ -222,7 +230,28 @@ namespace Spellright
             if (actor.ShockTurns > 0) amount *= battle.Settings.shockAttackMultiplier;
             if (synchronized) amount *= battle.Settings.synchronizedPower;
             if (actor.OverchargeTurns > 0) amount *= 1 + actor.NextMagicBonus;
-            int before = target.HP; Damage(actor, target, amount); return before - target.HP;
+            int before = target.HP;
+            Damage(actor, target, amount);
+            ShowElementMatchup(target, element, matchup);
+            return before - target.HP;
+        }
+        internal static float ElementMatchupMultiplier(Element attack, Element defense)
+        {
+            if (attack == Element.None || defense == Element.None) return 1f;
+            if (attack == defense) return .7f;
+            bool weak = (attack == Element.Water && defense == Element.Fire) ||
+                (attack == Element.Fire && defense == Element.Electric) ||
+                (attack == Element.Electric && defense == Element.Water);
+            return weak ? 1.3f : 1f;
+        }
+        void ShowElementMatchup(Combatant target, Element attack, float multiplier)
+        {
+            if (multiplier == 1f) return;
+            bool weak = multiplier > 1f;
+            string text = weak ? "weak" : "resist";
+            Color color = weak ? new Color(1f, .35f, .25f) : new Color(.55f, .75f, 1f);
+            battle.Presentation.ShowStatus(target, text, color);
+            battle.Log(target.Name + " is " + text + " to " + attack + ".");
         }
         Element DamageElement(Spell spell)
         {
@@ -323,7 +352,15 @@ namespace Spellright
         IEnumerator ItemRoutine(Combatant actor, Combatant ally, bool mp)
         {
             actor.Acted = true; ResetHeat(actor);
-            if (mp) { Ethers--; int before = ally.MP; ally.MP = Mathf.Min(ally.MaxMP, ally.MP + battle.Settings.etherAmount); battle.Presentation.ShowManaRestored(ally, ally.MP - before); }
+            if (mp)
+            {
+                Ethers--;
+                int before = ally.MP;
+                ally.MP = Mathf.Min(ally.MaxMP, ally.MP + battle.Settings.etherAmount);
+                int restored = ally.MP - before;
+                battle.Presentation.ShowManaRestored(ally, restored);
+                battle.Log(ally.Name + " restores " + restored + " MP.");
+            }
             else if (ally.Alive) { Potions--; Heal(ally, battle.Settings.healingAmount); }
             else { Potions--; Revive(ally, battle.Settings.healingAmount); }
             battle.Log(actor.Name + " uses " + (mp ? "Ether" : "Potion") + " on " + ally.Name); yield return new WaitForSeconds(.15f);

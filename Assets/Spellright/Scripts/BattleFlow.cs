@@ -148,7 +148,7 @@ namespace Spellright
                 if (first != null) compatible.Remove(first);
                 Spell second = compatible.Count > 0 ? compatible[Random.Range(0, compatible.Count)] : first;
                 Spell reward = first == null ? null : (second != null && Random.value < .5f ? second : first);
-                int baseHp = prototype.HP > 0 ? prototype.HP : Mathf.Max(100, Settings.enemyHP * 2 / 3);
+                int baseHp = Mathf.Max(1, Settings.enemyHP);
                 bool miniboss = minibossWave && i == 0;
                 int hp = miniboss ? Mathf.RoundToInt(baseHp * Mathf.Max(1f, Settings.minibossHPMultiplier)) : baseHp;
                 int defense = prototype.Defense + (miniboss ? Mathf.Max(0, Settings.minibossDefenseBonus) : 0);

@@ -119,10 +119,18 @@ namespace Spellright
             {
                 var choice = choices[i];
                 GUI.enabled = choice.Enabled;
+                Color textColor = GUI.color;
+                if (navigation.Screen == CombatScreen.AllyTarget)
+                {
+                    var targets = navigation.TargetCandidates();
+                    if (i < targets.Length)
+                        GUI.color = ElementArrowColor(targets[i].Element);
+                }
                 Color background = GUI.backgroundColor;
                 if (i == navigation.Cursor && choice.Enabled) GUI.backgroundColor = new Color(1, 0.9f, 0.45f);
                 bool clicked = GUI.Button(choice.Rect, choice.Text, button);
                 GUI.backgroundColor = background;
+                GUI.color = textColor;
                 // During ally/enemy targeting the world-space arrow marks the chosen
                 // character, so do not also draw the menu-side arrow.
                 if (choice.Enabled && i == navigation.Cursor && !navigation.ChoosingTarget)
