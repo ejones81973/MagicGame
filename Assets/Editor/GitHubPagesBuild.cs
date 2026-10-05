@@ -12,6 +12,7 @@ namespace Spellright.Editor
         const string BattleScene = "Assets/Spellright/Scenes/SpellrightCombat.unity";
         const string OverworldScene = "Assets/Spellright/Scenes/OverworldTest.unity";
 
+        [MenuItem("Spellright/Build Pages WebGL (Battle + Overworld)")]
         public static void BuildAll()
         {
             // GitHub Pages does not set Content-Encoding for Unity's compressed payload files.

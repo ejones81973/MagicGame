@@ -104,3 +104,9 @@
 - Updated battle targeting arrows and command name plates to use the selected character's element color.
 - Recorded those retained combat and UI adjustments here for project history.
 - Built the earlier movement-only overworld test scene and elemental wall/bolt prototype; this formation course replaces that scene's old one-controller implementation while retaining the isolated test-scene approach.
+
+## 2026-10-05 — Local WebGL builds for Pages
+
+- Removed Unity/GameCI from the GitHub Pages workflow. GitHub now only validates the prebuilt Battle and Overworld WebGL entry files, packages `docs`, and deploys the site; no Unity credentials are needed in repository secrets.
+- Added a Unity menu command to build both Pages games locally into `docs/battle` and `docs/overworld`.
+- Updated the root README with local build and publish steps. The WebGL build folders must be committed so the Pages workflow can publish them.

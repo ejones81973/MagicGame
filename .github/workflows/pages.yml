@@ -15,42 +15,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build Battle and Overworld WebGL
+  publish:
+    name: Publish prebuilt WebGL games
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Cache Unity Library
-        uses: actions/cache@v4
-        with:
-          path: Library
-          key: Library-WebGL-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-          restore-keys: |
-            Library-WebGL-
-
-      - name: Build both Unity scenes for WebGL
-        uses: game-ci/unity-builder@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          projectPath: .
-          unityVersion: 6000.5.2f1
-          targetPlatform: WebGL
-          buildMethod: Spellright.Editor.GitHubPagesBuild.BuildAll
+      - name: Confirm local WebGL builds are committed
+        run: |
+          test -f docs/battle/index.html
+          test -f docs/overworld/index.html
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: docs
 
   deploy:
     name: Deploy Pages
-    needs: build
+    needs: publish
     runs-on: ubuntu-latest
     environment:
       name: github-pages
