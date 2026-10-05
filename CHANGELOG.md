@@ -1,5 +1,10 @@
 # Change Log
 
+## 2026-10-05 — Project memory handoff
+
+- Added `Memory/KEEPFILE.md` to record current project state, WebGL/Pages behavior, architecture notes, verification results, and future change entries.
+- Added `AGENTS.md` instructing future project sessions to read every file in `Memory/` before work and update the keepfile after meaningful changes.
+
 ## 2026-10-05 — GitHub Pages root entry point
 
 - Added the branch-root landing page needed by the repository's active legacy GitHub Pages configuration. It links directly to the verified Battle and Overworld WebGL builds in `docs/`.
