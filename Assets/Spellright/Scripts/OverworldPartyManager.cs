@@ -376,8 +376,7 @@ namespace Spellright
             visual.transform.SetParent(hero.transform, false);
             visual.transform.localPosition = Vector3.up * .9f;
             Destroy(visual.GetComponent<Collider>());
-            var bodyMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-            bodyMaterial.color = color;
+            var bodyMaterial = RuntimeMaterials.Lit(color);
             visual.GetComponent<Renderer>().material = bodyMaterial;
             var marker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             marker.name = "Control Marker";
@@ -385,8 +384,7 @@ namespace Spellright
             marker.transform.localPosition = Vector3.up * 2.15f;
             marker.transform.localScale = Vector3.one * .22f;
             Destroy(marker.GetComponent<Collider>());
-            var markerMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-            markerMaterial.color = Color.white;
+            var markerMaterial = RuntimeMaterials.Lit(Color.white);
             marker.GetComponent<Renderer>().material = markerMaterial;
             marker.SetActive(false);
             var identity = hero.AddComponent<OverworldCharacterIdentity>();

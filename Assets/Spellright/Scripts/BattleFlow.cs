@@ -43,6 +43,7 @@ namespace Spellright
             Actions = new BattleActions(this);
             Round = 0; WaveNumber = 1; SpawnWave(); BeginParty();
             gameObject.AddComponent<BattleUI>().Initialize(this);
+            Debug.Log("Spellright battle ready: " + Party.Count + " party members, " + Enemies.Count + " enemies, HUD initialized.");
         }
         public void Log(string message) { History.Add(message); if (History.Count > 6) History.RemoveAt(0); }
         public bool Ready => Phase == BattlePhase.Party && !Busy && ActiveIndex >= 0 && ActiveIndex < Party.Count &&

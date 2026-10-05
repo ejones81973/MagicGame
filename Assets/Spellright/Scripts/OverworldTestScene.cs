@@ -25,6 +25,7 @@ namespace Spellright
             party.Initialize(input, tuning, sceneCamera);
             puzzles = gameObject.AddComponent<OverworldPuzzleDirector>();
             ConfigurePuzzles();
+            Debug.Log("Spellright overworld ready: party, camera, input, formations and puzzles initialized.");
         }
 
         void ConfigurePuzzles()
@@ -160,7 +161,7 @@ namespace Spellright
         void Platform(string label,Vector3 pos,Vector3 size,Color color)=>Primitive(label,PrimitiveType.Cube,pos,size,color);
         void Block(string label,Color color,Vector3 pos,Vector3 size)=>Primitive(label,PrimitiveType.Cube,pos,size,color);
         GameObject Primitive(string label,PrimitiveType type,Vector3 pos,Vector3 size,Color color)
-        { var obj=GameObject.CreatePrimitive(type);obj.name=label;obj.transform.position=pos;obj.transform.localScale=size;var mat=new Material(Shader.Find("Universal Render Pipeline/Lit")??Shader.Find("Standard"));mat.color=color;obj.GetComponent<Renderer>().material=mat;return obj; }
+        { var obj=GameObject.CreatePrimitive(type);obj.name=label;obj.transform.position=pos;obj.transform.localScale=size;obj.GetComponent<Renderer>().material=RuntimeMaterials.Lit(color);return obj; }
         static Color ElementColor(Element e)=>e==Element.Fire?new Color(1,.2f,.08f):e==Element.Water?new Color(.08f,.5f,1):new Color(1,.82f,.05f);
 
         void OnGUI()

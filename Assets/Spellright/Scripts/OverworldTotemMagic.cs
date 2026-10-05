@@ -49,8 +49,7 @@ namespace Spellright
             stormCloud.transform.localScale = new Vector3(1.8f, 1.1f, 1.8f);
             Destroy(stormCloud.GetComponent<Collider>());
             Color stormColor = new Color(.4f, .75f, 1f);
-            var material = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-            material.color = stormColor;
+            var material = RuntimeMaterials.Lit(stormColor, emissive: true);
             material.EnableKeyword("_EMISSION");
             material.SetColor("_EmissionColor", stormColor * .65f);
             stormCloud.GetComponent<Renderer>().material = material;
@@ -116,8 +115,7 @@ namespace Spellright
             body.useGravity = false;
             body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             body.linearVelocity = forward * tuning.synchronizedProjectileSpeed;
-            var material = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-            material.color = color;
+            var material = RuntimeMaterials.Lit(color, emissive: true);
             material.EnableKeyword("_EMISSION");
             material.SetColor("_EmissionColor", color * 1.2f);
             projectile.GetComponent<Renderer>().material = material;
@@ -138,8 +136,7 @@ namespace Spellright
             bolt.transform.position = position + Vector3.up * 2f;
             bolt.transform.localScale = new Vector3(.12f, 2f, .12f);
             Destroy(bolt.GetComponent<Collider>());
-            var material = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-            material.color = new Color(.55f, .85f, 1f);
+            var material = RuntimeMaterials.Lit(new Color(.55f, .85f, 1f), emissive: true);
             material.EnableKeyword("_EMISSION"); material.SetColor("_EmissionColor", Color.cyan * 2f);
             bolt.GetComponent<Renderer>().material = material;
             Destroy(bolt, .22f);

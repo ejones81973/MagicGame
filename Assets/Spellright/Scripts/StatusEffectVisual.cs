@@ -33,10 +33,7 @@ namespace Spellright
         void AddGroup(PrimitiveType shape, Color color, int count, float speed, float height, float size)
         {
             var group = new MarkerGroup { markers = new GameObject[count], origins = new Vector3[count], speed = speed, height = height };
-            Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
-            if (!shader) shader = Shader.Find("Unlit/Color");
-            if (!shader) shader = Shader.Find("Standard");
-            var material = new Material(shader) { color = color };
+            var material = RuntimeMaterials.Unlit(color);
             materials.Add(material);
             for (int i = 0; i < count; i++)
             {

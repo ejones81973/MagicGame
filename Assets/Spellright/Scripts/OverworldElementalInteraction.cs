@@ -50,8 +50,7 @@ namespace Spellright
             body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             body.linearVelocity = shooter.transform.forward * 22f;
             var renderer = ball.GetComponent<Renderer>();
-            var material = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-            material.color = shooter.ElementColor;
+            var material = RuntimeMaterials.Lit(shooter.ElementColor, emissive: true);
             material.EnableKeyword("_EMISSION");
             material.SetColor("_EmissionColor", shooter.ElementColor * .45f);
             renderer.material = material;

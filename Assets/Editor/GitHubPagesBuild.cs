@@ -15,6 +15,14 @@ namespace Spellright.Editor
         [MenuItem("Spellright/Build Pages WebGL (Battle + Overworld)")]
         public static void BuildAll()
         {
+            AssetDatabase.Refresh();
+            foreach (string name in new[] { "Lit", "LitEmissive", "Unlit", "UnlitTransparent" })
+            {
+                string path = "Assets/Spellright/Resources/SpellrightMaterials/" + name + ".mat";
+                var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+                if (!material || !material.shader)
+                    throw new BuildFailedException("Pages runtime material or shader is missing: " + path);
+            }
             // GitHub Pages does not set Content-Encoding for Unity's compressed payload files.
             // An uncompressed WebGL payload works with its static hosting headers.
             PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;

@@ -53,20 +53,10 @@ namespace Spellright
             var obj = GameObject.CreatePrimitive(primitive); obj.name = name; obj.transform.SetParent(transform);
             obj.transform.position = position; obj.transform.localScale = scale;
             var renderer = obj.GetComponent<Renderer>();
-            Material material = primitiveMaterialTemplate ? new Material(primitiveMaterialTemplate) : null;
-            if (!material)
-            {
-                var shader = Shader.Find("Universal Render Pipeline/Lit");
-                if (!shader) shader = Shader.Find("Standard");
-                if (shader) material = new Material(shader);
-            }
-            if (material)
-            {
-                material.color = color;
-                materials.Add(material);
-                renderer.sharedMaterial = material;
-            }
-            else Debug.LogError("Battle visuals could not find a usable primitive material. Assign one in CombatSettings.");
+            var material = primitiveMaterialTemplate ? new Material(primitiveMaterialTemplate) : RuntimeMaterials.Lit(color);
+            material.color = color;
+            materials.Add(material);
+            renderer.sharedMaterial = material;
             Destroy(obj.GetComponent<Collider>());
             return obj.transform;
         }

@@ -1,5 +1,13 @@
 # Change Log
 
+## 2026-10-05 — Complete WebGL material retention
+
+- Replaced remaining runtime shader-name lookups in battle shields, statuses, attack rings, overworld geometry, party members, and spells with a shared material factory.
+- Added Resources material assets for Lit, emissive Lit, Unlit, and transparent Unlit so both scene builds retain their shaders and required variants.
+- Added build preflight checks for the material assets and startup completion messages for browser smoke checks.
+- Browser checks reproduced null-shader exceptions in both deployed games and a stripped CapsuleCollider error in Battle. Added linker preservation for the renderer and collider types used by procedural primitives.
+- Rebuilt both WebGL players. Local Chrome smoke checks passed with zero runtime errors: full battle startup, spell damage/status visuals, shields and enemy turn; overworld startup, all four formations, movement, elemental/Totem casts and Huddle jump/dash inputs.
+
 ## 2026-10-05 — WebGL battle visuals
 
 - Battle geometry now clones a serialized URP Lit material referenced by `CombatSettings`, ensuring the WebGL build includes the shader instead of relying only on runtime `Shader.Find`.

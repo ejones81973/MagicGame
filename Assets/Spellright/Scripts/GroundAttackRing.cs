@@ -17,10 +17,7 @@ namespace Spellright
             line.numCapVertices = 4;
             line.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             line.receiveShadows = false;
-            var shader = Shader.Find("Universal Render Pipeline/Unlit");
-            if (!shader) shader = Shader.Find("Sprites/Default");
-            material = new Material(shader);
-            material.color = color;
+            material = RuntimeMaterials.Unlit(color);
             line.sharedMaterial = material;
             for (int i = 0; i < line.positionCount; i++)
             {
