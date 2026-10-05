@@ -53,6 +53,13 @@ Add entries at the top of this section:
 - Remaining: limitation, or `None`.
 ```
 
+## 2026-10-05 — Committed Unity WebGL editor state
+
+- Changed: Unity rendering and project settings under `Assets/Settings/` and `ProjectSettings/`, plus generated `Data/Plugins/` Burst output.
+- Why: persist the Editor changes produced while creating and rebuilding the WebGL Pages players, including the Input Actions preload and disabled WebGL compression.
+- Verified: Unity completed the Battle and Overworld WebGL builds; live Pages checks loaded both players.
+- Remaining: None.
+
 ## 2026-10-05 — Added project keepfile
 
 - Changed: `AGENTS.md`, `Memory/KEEPFILE.md`.
